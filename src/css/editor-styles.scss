@@ -1,0 +1,27 @@
+/* Visual cue for the row reverse style */
+.has-row-reverse {
+    counter-reset: column-count;
+}
+.has-row-reverse.is-selected > .wp-block-column,
+.has-row-reverse:has(.is-selected) > .wp-block-column {
+    position: relative;
+    counter-increment: column-count;
+
+    &::before {
+        content: counter(column-count);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-box-trim: trim-both;
+        position: absolute;
+        width: 1.5rem;
+        height: 1.5rem;
+        transform: translate(-50%, -50%);
+        background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+        color: var(--wp-components-color-accent-inverted, #fff);
+        border-radius: 50%;
+        z-index: 999;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+}

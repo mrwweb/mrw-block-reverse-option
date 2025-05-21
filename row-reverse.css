@@ -1,0 +1,4 @@
+.is-style-row-reverse, /* legacy class */
+.has-row-reverse {
+    flex-flow: row-reverse;
+}
