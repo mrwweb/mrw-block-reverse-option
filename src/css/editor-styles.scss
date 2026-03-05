@@ -1,27 +1,44 @@
 /* Visual cue for the row reverse style */
-.has-row-reverse {
-    counter-reset: column-count;
+.has-block-reverse {
+	counter-reset: column-count;
 }
-.has-row-reverse.is-selected > .wp-block-column,
-.has-row-reverse:has(.is-selected) > .wp-block-column {
-    position: relative;
-    counter-increment: column-count;
+.has-block-reverse.is-selected > .wp-block:not(.block-list-appender),
+.has-block-reverse:has(.is-selected) > .wp-block:not(.block-list-appender) {
+	position: relative;
+	counter-increment: column-count;
 
-    &::before {
-        content: counter(column-count);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-box-trim: trim-both;
-        position: absolute;
-        width: 1.5rem;
-        height: 1.5rem;
-        transform: translate(-50%, -50%);
-        background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
-        color: var(--wp-components-color-accent-inverted, #fff);
-        border-radius: 50%;
-        z-index: 999;
-        font-size: 0.75rem;
-        font-weight: 700;
-    }
+	&::before {
+		content: counter(column-count);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-box-trim: trim-both;
+		position: absolute;
+		width: 1.25rem;
+		height: 1.25rem;
+		/* Positioning strategy: start outside text and then nudge back over text using font-relative units */
+		inset-inline-start: -1.25rem;
+		inset-block-start: -.625rem;
+		transform: translate(.5em, 0.5ex);
+		background-color: var(--wp-admin-theme-color-darker-20, #006ba1);
+		color: var(--wp-components-color-accent-inverted, #fff);
+		border-radius: 50%;
+		z-index: 1;
+		font-family: // Match WordPress Admin Font - this should be a custom prop!
+			-apple-system,
+			BlinkMacSystemFont,
+			"Segoe UI",
+			Oxygen-Sans,
+			Ubuntu,
+			Cantarell,
+			"Helvetica Neue",
+			sans-serif;
+		font-size: 0.75rem;
+		font-weight: 700;
+		pointer-events: none; // don't interfere with editing / block selection
+	}
+
+	&.is-selected::before {
+		background-color: var(--wp-admin-theme-color, #007cba);
+	}
 }

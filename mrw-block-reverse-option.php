@@ -6,22 +6,22 @@
  * Author URI:      https://MRWweb.com
  * Text Domain:     mrw-block-reverse-option
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         0.2.0
  *
  * @package         MRW_Block_Reverse_Option
  */
 
 namespace MRW\BlockReverseOption;
 
-define( 'MRW_BLOCK_REVERSE_OPTION_VERSION', '0.1.0' );
+define( 'MRW_BLOCK_REVERSE_OPTION_VERSION', '0.2.0' );
 
 add_action( 'after_setup_theme', __NAMESPACE__ . '\enqueue_style' );
 function enqueue_style() {
     wp_enqueue_block_style(
-        'core/columns',
+        ['core/columns', 'core/group'],
         [
-            'handle' => 'mrw-row-reverse',
-            'src' => plugins_url( 'row-reverse.css', __FILE__ ),
+            'handle' => 'mrw-block-reverse',
+            'src' => plugins_url( 'block-reverse.css', __FILE__ ),
             'ver' => MRW_BLOCK_REVERSE_OPTION_VERSION,
         ]
     );

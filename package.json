@@ -1,6 +1,6 @@
 {
   "name": "mrw-block-reverse-option",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Mark Root-Wiley",
   "scripts": {
     "build": "wp-scripts build",
@@ -14,7 +14,7 @@
 		"test:unit": "wp-scripts test-unit-js"
   },
   "devDependencies": {
-    "@10up/block-components": "^1.20.1",
-    "@wordpress/scripts": "^30.16.0"
+    "@10up/block-components": "^1.22.1",
+    "@wordpress/scripts": "^31.6.0"
   }
 }

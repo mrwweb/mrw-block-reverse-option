@@ -1,0 +1,9 @@
+.is-style-row-reverse,
+.has-row-reverse,
+.has-block-reverse {
+    flex-flow: row-reverse;
+}
+
+.has-block-reverse.is-vertical {
+    flex-flow: column-reverse;
+}

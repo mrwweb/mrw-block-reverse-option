@@ -12,39 +12,56 @@ import '../css/editor-styles.scss'
  * is selected. It is recommended to use Slots like `BlockControls` or
  * `InspectorControls` in here to put settings into the blocks
  * toolbar or sidebar.
- *
+ * 
  * @param {object} props block props
  * @returns {JSX}
  */
 function BlockEdit(props) {
-    const {
-        attributes: { rowReverse },
-        setAttributes
-    } = props;
+	const {
+		attributes: { blockReverse = false, layout: { type: layout = null } = {} },
+		setAttributes,
+		name
+	} = props;
+
+	// partial backwards compatibility
+	// class .has-row-reverse will need to be manually removed to remove style
+	if ( props?.attributes?.className?.includes( 'has-row-reverse' ) ) {
+		setAttributes( {blockReverse: true} );
+	}
+
+	/* Only applies to Rox and Stack, not Group or Grid */
+	if( name === 'core/group' && layout !== 'flex' ) {
+		return;
+	}
+
+	let label, help;
+	if ( name === 'core/group' ) {
+		label = "Reverse Block Order";
+		help = "When the reading order of blocks doesn't match the visual order. Useful in limited circumstances for responsible and accessibility needs."
+	} else {
+		label = "Reverse Column Order";
+		help = "Columns will stack right-to-left instead of left-to-right on small screens."
+	}
 
 	return (
 		<InspectorControls>
-            <Panel>
-                <PanelBody>
-                    <PanelRow>
-                        <ToggleControl
-                            __nextHasNoMarginBottom
-                            label="Reverse Column Order"
-                            help={
-                                rowReverse
-                                    ? 'Last column is first on small screens'
-                                    : ''
-                            }
-                            checked={ rowReverse }
-                            onChange={ (newValue) => {
-                                setAttributes( {rowReverse: newValue} );
-                            } }
-                        />
-                    </PanelRow>
-                </PanelBody>
-            </Panel>
+			<Panel>
+				<PanelBody>
+					<PanelRow>
+						<ToggleControl
+							__nextHasNoMarginBottom
+							label={label}
+							help={help}
+							checked={ blockReverse }
+							onChange={ (newValue) => {
+								setAttributes( {blockReverse: newValue} );
+							} }
+						/>
+					</PanelRow>
+				</PanelBody>
+			</Panel>
 		</InspectorControls>
-    );
+	);
 }
 
 /**
@@ -56,17 +73,34 @@ function BlockEdit(props) {
  * @param {object} attributes block attributes
  * @returns {string}
  */
-function generateClassNames(attributes) {    
-    return attributes.rowReverse ? 'has-row-reverse' : '';
+function generateClassNames(attributes) {
+	const { blockReverse } = attributes;
+	return blockReverse ? 'has-block-reverse' : '';
 }
 
 registerBlockExtension(
 	'core/columns',
 	{
 		extensionName: 'mrw-block-reverse-option',
-        blockName: 'core/columns',
+		blockName: 'core/columns',
 		attributes: {
-			rowReverse: {
+			blockReverse: {
+				type: 'boolean',
+				default: false,
+			},
+		},
+		classNameGenerator: generateClassNames,
+		Edit: BlockEdit,
+	}
+);
+
+registerBlockExtension(
+	'core/group',
+	{
+		extensionName: 'mrw-block-reverse-option',
+		blockName: 'core/group',
+		attributes: {
+			blockReverse: {
 				type: 'boolean',
 				default: false,
 			},
